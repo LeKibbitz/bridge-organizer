@@ -1,0 +1,81 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>1</epicId>
+    <storyId>1.1</storyId>
+    <title>Database Infrastructure Setup</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-15</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/1-1-database-infrastructure-setup.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>system administrator</asA>
+    <iWant>core databases established with proper relationships</iWant>
+    <soThat>player matching can access all necessary information</soThat>
+    <tasks>- [ ] Task 1: Create core player database schema (AC: 1)
+  - [ ] Implement players table with Discord ID and FFB license linking
+  - [ ] Add JSONB preferences column with validation
+  - [ ] Create indexes on discord_id and ffb_license for performance
+  - [ ] Add skill_level constraint validation
+  - [ ] Test player profile creation and retrieval operations
+- [ ] Task 2: Establish club membership database (AC: 2)
+  - [ ] Create clubs table with member roster tracking
+  - [ ] Implement club_members table with role assignments
+  - [ ] Add organizer permission levels and access control
+  - [ ] Create indexes for member lookup operations
+  - [ ] Test club membership queries and role validation
+- [ ] Task 3: Build committee management database (AC: 3)
+  - [ ] Create committees table for organizational structure
+  - [ ] Implement committee_members table with responsibility tracking
+  - [ ] Add permission level definitions and access constraints
+  - [ ] Create audit trail for committee membership changes
+  - [ ] Test committee permission queries
+- [ ] Task 4: Design tournament type definitions database (AC: 4)
+  - [ ] Create tournament_types table with rules and format specifications
+  - [ ] Add tournament format constraints and validation rules
+  - [ ] Implement pairing requirement definitions
+  - [ ] Create tournament configuration templates
+  - [ ] Test tournament type queries and validation
+- [ ] Task 5: Establish database indexing and n8n integration (AC: 5)
+  - [ ] Create GIN indexes on JSONB columns for preference queries
+  - [ ] Add partial indexes on active sessions for performance
+  - [ ] Configure Supabase RLS policies for access control
+  - [ ] Test n8n database node connectivity and operations
+  - [ ] Validate integration with Discord State Bridge pattern</tasks>
+  </story>
+
+  <acceptanceCriteria>1. Player database created with FFB data, preferences, and Discord linking
+2. Club database with member rosters and organizer roles
+3. Committee database tracking permissions and responsibilities
+4. Tournament type database with rules and format definitions
+5. All databases properly indexed and connected via n8n workflows</acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc path="docs/architecture.md" title="Decision Architecture" section="Data Architecture" snippet="Describes Supabase PostgreSQL 18 with hybrid relational + JSONB design, table schemas, naming conventions, and Discord State Bridge pattern implementation." />
+      <doc path="docs/architecture.md" title="Decision Architecture" section="Core Data Models" snippet="Contains SQL schema definitions for players, tournaments, active_sessions tables with proper constraints, indexes, and relationship patterns." />
+      <doc path="docs/architecture.md" title="Decision Architecture" section="Project Structure" snippet="Defines `/supabase/migrations/`, `/supabase/functions/` directory structure and migration file naming conventions for database components." />
+      <doc path="docs/PRD.md" title="Product Requirements Document" section="Functional Requirements" snippet="FR002-FR006 specify database requirements for player profiles, club membership, committee management, and tournament type definitions." />
+      <doc path="docs/epics.md" title="Epic Breakdown" section="Epic 1 Story 1.1" snippet="Defines acceptance criteria for database infrastructure setup including player, club, committee, and tournament type databases with n8n integration." />
+    </docs>
+    <code>No existing source code found - this is a greenfield project requiring initial database infrastructure setup.</code>
+    <dependencies>
+      <supabase>PostgreSQL 18 database platform with real-time subscriptions</supabase>
+      <n8n>Workflow automation platform v1.119.1 with Supabase integration nodes</n8n>
+      <pg_jsonschema>PostgreSQL extension for JSON schema validation</pg_jsonschema>
+      <discord.js>v14.24.2 (referenced in architecture but will be used by other stories)</discord.js>
+    </dependencies>
+  </artifacts>
+
+  <constraints>Table naming: snake_case plural format (players, tournaments, active_sessions); Column naming: snake_case with table_singular_id foreign key format; JSONB columns for flexible preference storage with pg_jsonschema validation; GIN indexes on JSONB columns for efficient preference queries; Row Level Security (RLS) policies for access control; Database migrations in /supabase/migrations/ directory; Real-time subscriptions capability for n8n workflow integration</constraints>
+  <interfaces>
+    <interface name="Supabase Client Integration" kind="Database connection interface" signature="Standard Supabase JavaScript client with TypeScript types" path="To be created in src/services/supabase.ts" />
+    <interface name="n8n Database Operations" kind="Workflow database nodes" signature="n8n Supabase node configuration for CRUD operations" path="n8n-workflows/*.json" />
+  </interfaces>
+  <tests>
+    <standards>Database testing should focus on schema validation, constraint checking, and migration integrity. Use Supabase local development environment for testing database operations before deployment.</standards>
+    <locations>supabase/tests/ - Database schema and migration tests; Tests integrated with Supabase local development environment</locations>
+    <ideas>AC1: Test players table creation with proper Discord ID and FFB license constraints; AC2: Validate club membership queries and organizer role assignments; AC3: Test committee permission validation and access control; AC4: Verify tournament type constraint validation and template functionality; AC5: Test GIN index performance on JSONB preference queries and n8n connectivity</ideas>
+  </tests>
+</story-context>

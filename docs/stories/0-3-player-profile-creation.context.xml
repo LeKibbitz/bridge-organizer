@@ -1,0 +1,130 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>0</epicId>
+    <storyId>3</storyId>
+    <title>Player Profile Creation</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-14</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/0-3-player-profile-creation.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>verified bridge player</asA>
+    <iWant>to confirm my profile through clickable preferences</iWant>
+    <soThat>future interactions automatically know who I am</soThat>
+    <tasks>
+      <task ac="1">Create profile confirmation screen - Design profile confirmation interface with player information display, Implement clickable preference selection components, Add visual confirmation of selected preferences</task>
+      <task ac="2">Implement preference dropdown menus - Create availability/skill level/playing style dropdowns, Implement dropdown interaction handlers</task>
+      <task ac="3">Implement profile save functionality - Create "Save Profile" button with validation, Implement profile data persistence to Supabase, Handle profile save success/failure scenarios</task>
+      <task ac="4">Create success confirmation flow - Design success message with profile summary, Implement "Continue to Main Menu" button, Handle transition to main menu state</task>
+      <task ac="5">Establish database mapping system - Design Discord ID → FFB license → preferences data model, Implement database schema for complete player records, Create data integrity validation and constraints</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1">Profile confirmation screen with clickable preference options</criterion>
+    <criterion id="2">Dropdown menus for availability, skill level, playing style preferences</criterion>
+    <criterion id="3">"Save Profile" button creates complete player record</criterion>
+    <criterion id="4">Success message with "Continue to Main Menu" button</criterion>
+    <criterion id="5">Database maintains Discord ID → FFB license → preferences mapping</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Epic 0 Story 0.3</section>
+        <snippet>Profile creation with clickable preferences after FFB verification, dropdown menus for preferences, complete player record creation</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Decision Architecture</title>
+        <section>Data Architecture</section>
+        <snippet>JSONB columns for flexible preference storage, Discord ID as primary key with FFB license foreign key</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Decision Architecture</title>
+        <section>Discord State Bridge Pattern</section>
+        <snippet>Maintain user context during profile creation process, real-time progress updates</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>UX Design Principles</section>
+        <snippet>Clickable interfaces, dropdown menus for preference setting, clear confirmation flows</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/interactions/ProfileCreation.ts</path>
+        <kind>interaction-handler</kind>
+        <symbol>ProfileCreationHandler</symbol>
+        <lines>N/A - to be created</lines>
+        <reason>Profile confirmation and preference selection handlers</reason>
+      </artifact>
+      <artifact>
+        <path>src/menus/PreferenceMenus.ts</path>
+        <kind>menu-component</kind>
+        <symbol>PreferenceDropdowns</symbol>
+        <lines>N/A - to be created</lines>
+        <reason>Dropdown menus for availability, skill level, playing style preferences</reason>
+      </artifact>
+      <artifact>
+        <path>src/services/ProfileService.ts</path>
+        <kind>service</kind>
+        <symbol>ProfileService</symbol>
+        <lines>N/A - to be created</lines>
+        <reason>Profile data management and persistence operations</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <nodejs>
+        <package name="discord.js" version="^14.24.2" />
+        <package name="@supabase/supabase-js" version="latest" />
+      </nodejs>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Must integrate with FFB license verification from Story 0.2</constraint>
+    <constraint>Profile preferences stored in JSONB column for flexibility</constraint>
+    <constraint>Discord ID serves as primary key with FFB license foreign key relationship</constraint>
+    <constraint>Dropdown menus must be accessible and mobile-friendly</constraint>
+    <constraint>Profile completion triggers main menu state changes</constraint>
+    <constraint>Data integrity validation required for preference mapping</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Profile Confirmation Interface</name>
+      <kind>Discord Embed with Components</kind>
+      <signature>Profile display with clickable preference selection components</signature>
+      <path>src/interactions/ProfileCreation.ts</path>
+    </interface>
+    <interface>
+      <name>Preference Dropdown Interface</name>
+      <kind>Discord Select Menu</kind>
+      <signature>Dropdown menus for availability, skill level, playing style</signature>
+      <path>src/menus/PreferenceMenus.ts</path>
+    </interface>
+    <interface>
+      <name>Profile Save Interface</name>
+      <kind>Database Service</kind>
+      <signature>saveProfile(discordId: string, ffbLicense: string, preferences: object): Promise&lt;ProfileResult&gt;</signature>
+      <path>src/services/ProfileService.ts</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Profile creation flow testing with Discord component interactions, dropdown menu selection testing, database integration tests for profile persistence, preference validation unit tests</standards>
+    <locations>tests/integration/profile-creation/, tests/unit/profile-service/, tests/components/preference-menus/</locations>
+    <ideas>
+      <test ac="1">Profile confirmation screen rendering and interaction test</test>
+      <test ac="2">Preference dropdown functionality test with various selections</test>
+      <test ac="3">Profile save operation test with success/failure scenarios</test>
+      <test ac="4">Success flow test with menu transition validation</test>
+      <test ac="5">Database mapping integrity test with Discord ID and FFB license relationship</test>
+    </ideas>
+  </tests>
+</story-context>

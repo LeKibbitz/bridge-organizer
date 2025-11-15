@@ -1,0 +1,131 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>0</epicId>
+    <storyId>2</storyId>
+    <title>FFB License Verification</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-14</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/0-2-ffb-license-verification.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>new bridge player</asA>
+    <iWant>to click "Register" and enter my FFB license through a simple form</iWant>
+    <soThat>the system can access my official bridge information</soThat>
+    <tasks>
+      <task ac="1">Implement license input modal form - Create modal dialog with license number input field, Add form validation for required fields, Implement modal trigger from "Register" button</task>
+      <task ac="2">Add real-time license format validation - Implement FFB license format validation rules, Add real-time feedback during typing, Display validation status with visual indicators</task>
+      <task ac="3">Integrate Airtop FFB database query - Setup Airtop browser automation workflow, Implement FFB website navigation and data extraction, Display retrieved player information in Discord embed</task>
+      <task ac="4">Create confirmation interface - Design player information confirmation screen, Implement "Yes, this is me" and "No, try again" buttons, Handle confirmation responses and next steps</task>
+      <task ac="5">Implement comprehensive error handling - Create standardized error messages for common failures, Add "Retry" buttons for recoverable errors, Log errors to Supabase system_errors table, Test error scenarios</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1">"Register" button opens modal form for license number input</criterion>
+    <criterion id="2">System validates license format with real-time feedback</criterion>
+    <criterion id="3">System queries FFB database and displays retrieved player information</criterion>
+    <criterion id="4">Confirmation shown with "Yes, this is me" / "No, try again" buttons</criterion>
+    <criterion id="5">Clear error messages with clickable "Retry" options</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Decision Architecture</title>
+        <section>Airtop Integration</section>
+        <snippet>Airtop browser automation for FFB integration with session persistence, resilient to UI changes</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Decision Architecture</title>
+        <section>Discord State Bridge Pattern</section>
+        <snippet>Maintain user context during long-running workflows, real-time status updates for Discord users</snippet>
+      </doc>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Epic 0 Story 0.2</section>
+        <snippet>FFB license verification with modal form input, real-time validation, database query, and confirmation interface</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>UX Design Principles</section>
+        <snippet>Elderly-friendly simplicity, clickable interfaces, clear confirmation flows avoiding decision paralysis</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/interactions/LicenseVerification.ts</path>
+        <kind>interaction-handler</kind>
+        <symbol>LicenseVerificationHandler</symbol>
+        <lines>N/A - to be created</lines>
+        <reason>Modal form handler for FFB license input and validation</reason>
+      </artifact>
+      <artifact>
+        <path>src/services/AirtopClient.ts</path>
+        <kind>service</kind>
+        <symbol>AirtopClient</symbol>
+        <lines>N/A - to be created</lines>
+        <reason>FFB database integration via browser automation</reason>
+      </artifact>
+      <artifact>
+        <path>src/utils/LicenseValidator.ts</path>
+        <kind>utility</kind>
+        <symbol>validateFFBLicense</symbol>
+        <lines>N/A - to be created</lines>
+        <reason>Real-time license format validation logic</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <nodejs>
+        <package name="discord.js" version="^14.24.2" />
+        <package name="@supabase/supabase-js" version="latest" />
+        <package name="airtop" version="latest" />
+      </nodejs>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Must integrate with existing Discord bot from Story 0.1</constraint>
+    <constraint>FFB license validation must follow official FFB format requirements</constraint>
+    <constraint>Airtop browser automation for FFB queries (no direct API available)</constraint>
+    <constraint>Modal forms must be mobile-friendly and accessible</constraint>
+    <constraint>All errors logged to Supabase with user-friendly retry options</constraint>
+    <constraint>Session persistence required for multi-step verification process</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>License Verification Modal</name>
+      <kind>Discord Modal Form</kind>
+      <signature>Modal with license input field, real-time validation, submit/cancel buttons</signature>
+      <path>src/interactions/LicenseVerification.ts</path>
+    </interface>
+    <interface>
+      <name>FFB Query Interface</name>
+      <kind>Airtop Browser Automation</kind>
+      <signature>queryFFBDatabase(licenseNumber: string): Promise&lt;PlayerData&gt;</signature>
+      <path>src/services/AirtopClient.ts</path>
+    </interface>
+    <interface>
+      <name>License Validator</name>
+      <kind>Validation Function</kind>
+      <signature>validateFFBLicense(license: string): ValidationResult</signature>
+      <path>src/utils/LicenseValidator.ts</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Modal form testing with Discord.js mocks, Airtop integration testing with FFB website mocks, validation logic unit tests, error handling and retry mechanism tests</standards>
+    <locations>tests/integration/license-verification/, tests/unit/validators/, tests/mocks/ffb-responses/</locations>
+    <ideas>
+      <test ac="1">Modal form rendering and interaction test</test>
+      <test ac="2">Real-time validation feedback test with various license formats</test>
+      <test ac="3">Airtop FFB database query integration test with mock responses</test>
+      <test ac="4">Confirmation interface test with accept/reject flows</test>
+      <test ac="5">Error handling test suite covering network failures, invalid licenses, timeout scenarios</test>
+    </ideas>
+  </tests>
+</story-context>

@@ -1,0 +1,143 @@
+<story-context id="bmad/bmm/workflows/4-implementation/story-context/template" v="1.0">
+  <metadata>
+    <epicId>0</epicId>
+    <storyId>5</storyId>
+    <title>Profile Update and Management</title>
+    <status>drafted</status>
+    <generatedAt>2025-11-14</generatedAt>
+    <generator>BMAD Story Context Workflow</generator>
+    <sourceStoryPath>docs/stories/0-5-profile-update-and-management.md</sourceStoryPath>
+  </metadata>
+
+  <story>
+    <asA>registered player</asA>
+    <iWant>to click "My Profile" to view and update my information</iWant>
+    <soThat>the matching system has current data about me</soThat>
+    <tasks>
+      <task ac="1">Create profile view interface - Design "My Profile" button integration in main menu, Create profile information display with organized sections, Implement current data loading and presentation</task>
+      <task ac="2">Implement section editing functionality - Add "Edit" buttons for each profile section, Create edit mode toggle for profile sections, Implement edit state management</task>
+      <task ac="3">Create preference update interfaces - Implement dropdown menus for skill level changes, Create button interfaces for availability preferences, Add playing style preference selection</task>
+      <task ac="4">Implement save and confirmation system - Create "Save Changes" button with validation, Implement profile update persistence to database, Add success feedback with change summary</task>
+      <task ac="5">Create registration history view - Add "View Registration History" button, Design tournament history display interface, Implement tournament data retrieval, Create pagination for large history lists</task>
+    </tasks>
+  </story>
+
+  <acceptanceCriteria>
+    <criterion id="1">"My Profile" button shows current information in organized sections</criterion>
+    <criterion id="2">Clickable "Edit" buttons for each editable section</criterion>
+    <criterion id="3">Dropdown/button interfaces for preference changes</criterion>
+    <criterion id="4">"Save Changes" confirmation with success feedback</criterion>
+    <criterion id="5">"View Registration History" button shows past tournaments</criterion>
+  </acceptanceCriteria>
+
+  <artifacts>
+    <docs>
+      <doc>
+        <path>docs/epics.md</path>
+        <title>Epic Breakdown</title>
+        <section>Epic 0 Story 0.5</section>
+        <snippet>Profile update and management interface, organized sections, edit functionality, registration history view</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Decision Architecture</title>
+        <section>Data Architecture</section>
+        <snippet>JSONB preference updates with validation, atomic database transactions, change audit logging</snippet>
+      </doc>
+      <doc>
+        <path>docs/architecture.md</path>
+        <title>Decision Architecture</title>
+        <section>Discord State Bridge Pattern</section>
+        <snippet>Profile update progress tracking, session state management during edits</snippet>
+      </doc>
+      <doc>
+        <path>docs/PRD.md</path>
+        <title>Product Requirements Document</title>
+        <section>UX Design Principles</section>
+        <snippet>Clear edit interfaces, organized information display, confirmation flows for updates</snippet>
+      </doc>
+    </docs>
+    <code>
+      <artifact>
+        <path>src/interactions/ProfileManagement.ts</path>
+        <kind>interaction-handler</kind>
+        <symbol>ProfileManagementHandler</symbol>
+        <lines>N/A - to be created</lines>
+        <reason>Profile view, edit, and update interaction handling</reason>
+      </artifact>
+      <artifact>
+        <path>src/menus/ProfileMenu.ts</path>
+        <kind>menu-component</kind>
+        <symbol>ProfileMenuComponents</symbol>
+        <lines>N/A - to be created</lines>
+        <reason>Profile-related menu options and navigation</reason>
+      </artifact>
+      <artifact>
+        <path>src/services/ProfileUpdateService.ts</path>
+        <kind>service</kind>
+        <symbol>ProfileUpdateService</symbol>
+        <lines>N/A - to be created</lines>
+        <reason>Profile modification operations with atomic transactions</reason>
+      </artifact>
+      <artifact>
+        <path>src/views/RegistrationHistory.ts</path>
+        <kind>view-component</kind>
+        <symbol>RegistrationHistoryView</symbol>
+        <lines>N/A - to be created</lines>
+        <reason>Tournament history display with pagination</reason>
+      </artifact>
+    </code>
+    <dependencies>
+      <nodejs>
+        <package name="discord.js" version="^14.24.2" />
+        <package name="@supabase/supabase-js" version="latest" />
+      </nodejs>
+    </dependencies>
+  </artifacts>
+
+  <constraints>
+    <constraint>Must integrate with existing profile data from Stories 0.3 and 0.4</constraint>
+    <constraint>Profile updates require atomic database transactions to maintain consistency</constraint>
+    <constraint>Edit mode must preserve original data for rollback on cancel</constraint>
+    <constraint>Registration history requires tournament data integration and pagination</constraint>
+    <constraint>Preference validation must maintain data integrity constraints</constraint>
+    <constraint>Success feedback must show specific changes made to profile</constraint>
+  </constraints>
+  <interfaces>
+    <interface>
+      <name>Profile View Interface</name>
+      <kind>Discord Embed Display</kind>
+      <signature>Organized profile information display with edit buttons for each section</signature>
+      <path>src/interactions/ProfileManagement.ts</path>
+    </interface>
+    <interface>
+      <name>Profile Edit Interface</name>
+      <kind>Discord Modal Forms</kind>
+      <signature>Section-specific edit forms with preference dropdowns and validation</signature>
+      <path>src/interactions/ProfileManagement.ts</path>
+    </interface>
+    <interface>
+      <name>Profile Update Interface</name>
+      <kind>Database Service</kind>
+      <signature>updateProfile(discordId: string, changes: ProfileChanges): Promise&lt;UpdateResult&gt;</signature>
+      <path>src/services/ProfileUpdateService.ts</path>
+    </interface>
+    <interface>
+      <name>Registration History Interface</name>
+      <kind>Data Retrieval Service</kind>
+      <signature>getRegistrationHistory(playerId: string, pagination: PaginationOptions): Promise&lt;HistoryResult&gt;</signature>
+      <path>src/views/RegistrationHistory.ts</path>
+    </interface>
+  </interfaces>
+  <tests>
+    <standards>Profile management flow testing with edit/save/cancel operations, preference update validation testing, registration history pagination testing, atomic transaction rollback testing</standards>
+    <locations>tests/integration/profile-management/, tests/unit/profile-updates/, tests/views/registration-history/</locations>
+    <ideas>
+      <test ac="1">Profile view display test with organized sections and data loading</test>
+      <test ac="2">Edit mode functionality test with section-specific editing</test>
+      <test ac="3">Preference update test with dropdown selections and validation</test>
+      <test ac="4">Save confirmation test with success feedback and change summary</test>
+      <test ac="5">Registration history test with pagination and tournament data display</test>
+    </ideas>
+  </tests>
+</story-context>
